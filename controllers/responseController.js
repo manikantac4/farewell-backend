@@ -3,9 +3,9 @@ exports.submitResponse = async (req, res) => {
   try {
     const { sessionId, section, answers } = req.body;
 
-    if (!sessionId || !section || !answers || answers.length === 0) {
-      return res.status(400).json({ message: "Invalid data" });
-    }
+   if (!sessionId || !section || !Array.isArray(answers) || answers.length !== 10) {
+  return res.status(400).json({ message: "All 10 answers required" });
+}
 
     const exists = await Response.findOne({ sessionId });
     if (exists) {

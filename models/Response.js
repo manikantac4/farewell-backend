@@ -14,7 +14,11 @@ const ResponseSchema = new mongoose.Schema({
   answers: [
     {
       question: String,
-      answer: String
+      answer: {
+            type: String,
+            required: true,
+            match: /^[0-9]+$/   // ✅ ONLY NUMBERS (roll no)
+          }
     }
   ],
   createdAt: {
