@@ -11,16 +11,15 @@ const ResponseSchema = new mongoose.Schema({
     enum: ["ITA", "ITB", "ITC"],
     required: true
   },
-  answers: [
-    {
-      question: String,
-      answer: {
-            type: String,
-            required: true,
-            match: /^[0-9]+$/   // ✅ ONLY NUMBERS (roll no)
-          }
+answers: [
+  {
+    question: String,
+    answer: {
+      type: String,
+      required: true
     }
-  ],
+  }
+],
   createdAt: {
     type: Date,
     default: Date.now
