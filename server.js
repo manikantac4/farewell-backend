@@ -15,7 +15,7 @@ app.use(express.json());
 connectDB();
 
 // Routes
-app.use("/api/responses", require("./routes/responseRoutes"));
+app.use("/api", require("./routes/responseRoutes"));
 
 // Health check
 app.get("/", (req, res) => {

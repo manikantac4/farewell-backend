@@ -1,4 +1,5 @@
 const Response = require("../models/Response");
+
 exports.submitResponse = async (req, res) => {
   try {
     const { sessionId, section, answers } = req.body;
@@ -26,4 +27,21 @@ exports.submitResponse = async (req, res) => {
   console.log(error); // 👈 ADD THIS
   res.status(500).json({ message: "Server error", error: error.message });
 }
+};
+// GET responses by section
+exports.getResponses = async (req, res) => {
+  try {
+    const { section } = req.query;
+
+    let filter = {};
+    if (section) {
+      filter.section = section;
+    }
+
+    const data = await Response.find(filter).sort({ createdAt: -1 });
+
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching data" });
+  }
 };
