@@ -1,10 +1,13 @@
 // controllers/responseController.js
 
+
 const Response = require("../models/Response");
 
+// AFTER
+const Response = require("../models/Response3rdYear");
 // ✅ Roll validation
 const isValidRoll = (roll) => {
-  const regular = /^238W1A1(\d{2}|[A-D]\d)$/;   // 66–99, A0–D0
+  const regular = /^238W1A12(\d{2}|[A-D]\d)$/;   // 66–99, A0–D0
   const lateral = /^248W5A12LE(7|8|9|10|11|12|13)$/;
   return regular.test(roll) || lateral.test(roll);
 };
@@ -14,7 +17,7 @@ exports.submitResponse = async (req, res) => {
     const { sessionId, studentName, answers } = req.body;
 
     // ✅ VALIDATION
-    if (!sessionId || !studentName || !Array.isArray(answers) || answers.length !== 33) {
+    if (!sessionId || !studentName || !Array.isArray(answers) || answers.length !== 20) {
       return res.status(400).json({ message: "All fields required (33 answers)" });
     }
 
