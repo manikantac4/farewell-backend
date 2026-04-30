@@ -1,7 +1,8 @@
+// routes/responseRoutes.js
+
 const express = require("express");
 const router = express.Router();
 
-// ✅ IMPORT BOTH FUNCTIONS
 const { submitResponse, getResponses } = require("../controllers/responseController");
 
 router.post("/submit", submitResponse);

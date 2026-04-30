@@ -1,21 +1,44 @@
+// controllers/responseController.js
+
 const Response = require("../models/Response");
+
+// ✅ Roll validation
+const isValidRoll = (roll) => {
+  const regular = /^238W1A1(\d{2}|[A-D]\d)$/;   // 66–99, A0–D0
+  const lateral = /^248W5A12LE(7|8|9|10|11|12|13)$/;
+  return regular.test(roll) || lateral.test(roll);
+};
 
 exports.submitResponse = async (req, res) => {
   try {
-    const { sessionId, section, answers } = req.body;
+    const { sessionId, studentName, answers } = req.body;
 
-   if (!sessionId || !section || !Array.isArray(answers) || answers.length !== 10) {
-  return res.status(400).json({ message: "All 10 answers required" });
-}
+    // ✅ VALIDATION
+    if (!sessionId || !studentName || !Array.isArray(answers) || answers.length !== 33) {
+      return res.status(400).json({ message: "All fields required (33 answers)" });
+    }
 
+    // ✅ Prevent duplicate submission
     const exists = await Response.findOne({ sessionId });
     if (exists) {
       return res.status(400).json({ message: "Already submitted" });
     }
 
+    // ✅ Validate roll numbers
+    for (let ans of answers) {
+      if (!ans.answer || !isValidRoll(ans.answer)) {
+        return res.status(400).json({
+          message: `Invalid roll number: ${ans.answer}`
+        });
+      }
+    }
+
+    const cleanName = studentName.trim();
+
+    // ✅ Save
     const newResponse = new Response({
       sessionId,
-      section,
+      studentName: cleanName,
       answers
     });
 
@@ -24,22 +47,15 @@ exports.submitResponse = async (req, res) => {
     res.status(200).json({ message: "Submitted successfully ✅" });
 
   } catch (error) {
-  console.log(error); // 👈 ADD THIS
-  res.status(500).json({ message: "Server error", error: error.message });
-}
+    console.log(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
-// GET responses by section
+
+// ✅ GET all responses
 exports.getResponses = async (req, res) => {
   try {
-    const { section } = req.query;
-
-    let filter = {};
-    if (section) {
-      filter.section = section;
-    }
-
-    const data = await Response.find(filter).sort({ createdAt: -1 });
-
+    const data = await Response.find().sort({ createdAt: -1 });
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ message: "Error fetching data" });

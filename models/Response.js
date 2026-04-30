@@ -1,3 +1,5 @@
+// models/Response.js
+
 const mongoose = require("mongoose");
 
 const ResponseSchema = new mongoose.Schema({
@@ -6,20 +8,23 @@ const ResponseSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  section: {
+
+  studentName: {
     type: String,
-    enum: ["ITA", "ITB", "ITC"],
-    required: true
+    required: true,
+    trim: true
   },
-answers: [
-  {
-    question: String,
-    answer: {
-      type: String,
-      required: true
+
+  answers: [
+    {
+      question: String,
+      answer: {
+        type: String,
+        required: true
+      }
     }
-  }
-],
+  ],
+
   createdAt: {
     type: Date,
     default: Date.now
