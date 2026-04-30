@@ -1,4 +1,4 @@
-// models/Response.js
+// models/Response3rdYear.js
 
 const mongoose = require("mongoose");
 
@@ -31,4 +31,5 @@ const ResponseSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model("Response", ResponseSchema);
+// 👇 IMPORTANT: collection name change
+module.exports = mongoose.model("Response3rdYear", ResponseSchema, "responses_3rd_year");
