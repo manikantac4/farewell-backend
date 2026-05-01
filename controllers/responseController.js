@@ -18,7 +18,8 @@ exports.submitResponse = async (req, res) => {
 
     // ✅ VALIDATION
     if (!sessionId || !studentName || !Array.isArray(answers) || answers.length !== 20) {
-      return res.status(400).json({ message: "All fields required (33 answers)" });
+      // ✅ NEW
+return res.status(400).json({ message: "All fields required (20 answers)" });
     }
 
     // ✅ Prevent duplicate submission
