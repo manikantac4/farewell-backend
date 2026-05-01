@@ -4,7 +4,7 @@
 // const Response = require("../models/Response");
 
 // AFTER
-const Response = require("../models/Response");
+const Response = require("../models/Response3rdYear");
 // ✅ Roll validation
 const isValidRoll = (roll) => {
   const regular = /^238W1A12(\d{2}|[A-D]\d)$/;   // 66–99, A0–D0
