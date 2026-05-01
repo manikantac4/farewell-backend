@@ -22,10 +22,19 @@ exports.submitResponse = async (req, res) => {
     }
 
     // ✅ Prevent duplicate submission
-    const exists = await Response.findOne({ sessionId });
-    if (exists) {
-      return res.status(400).json({ message: "Already submitted" });
-    }
+    // ✅ NEW (device + roll check)
+
+// check device
+const existsSession = await Response.findOne({ sessionId });
+if (existsSession) {
+  return res.status(400).json({ message: "You have already submitted from this device" });
+}
+
+// check roll number
+const existsRoll = await Response.findOne({ studentName });
+if (existsRoll) {
+  return res.status(400).json({ message: "This roll number has already voted" });
+}
 
     // ✅ Validate roll numbers
     for (let ans of answers) {
